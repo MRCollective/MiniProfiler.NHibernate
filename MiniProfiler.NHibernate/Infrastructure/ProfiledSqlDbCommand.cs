@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using StackExchange.Profiling.Data;
 
-namespace MiniProfiler.NHibernate.NHibernate
+namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
     public class ProfiledSqlDbCommand : ProfiledDbCommand
     {

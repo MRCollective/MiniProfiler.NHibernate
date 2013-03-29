@@ -7,8 +7,8 @@
     <ProjectGuid>{820AFF68-9132-4021-8A46-4C2741D725E3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiniProfiler.NHibernate</RootNamespace>
-    <AssemblyName>MiniProfiler.NHibernate</AssemblyName>
+    <RootNamespace>StackExchange.Profiling.NHibernate</RootNamespace>
+    <AssemblyName>StackExchange.Profiling.NHibernate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

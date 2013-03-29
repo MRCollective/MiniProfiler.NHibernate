@@ -2,7 +2,7 @@
 using NHibernate.AdoNet;
 using NHibernate.Engine;
 
-namespace MiniProfiler.NHibernate.NHibernate
+namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
     public class ProfiledSqlClientBatchingBatcherFactory : SqlClientBatchingBatcherFactory
     {

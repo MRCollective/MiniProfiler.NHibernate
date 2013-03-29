@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using MiniProfiler.NHibernate.NHibernate;
 using NHibernate.AdoNet;
 using NHibernate.Driver;
+using StackExchange.Profiling.NHibernate.Infrastructure;
 
-namespace MiniProfiler.NHibernate.Drivers
+namespace StackExchange.Profiling.NHibernate.Drivers
 {
     public class MiniProfilerSql2008ClientDriver : Sql2008ClientDriver, IEmbeddedBatcherFactoryProvider
     {

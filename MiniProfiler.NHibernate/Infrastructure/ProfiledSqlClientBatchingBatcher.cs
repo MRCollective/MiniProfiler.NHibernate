@@ -8,7 +8,7 @@ using NHibernate.AdoNet.Util;
 using NHibernate.Exceptions;
 using NHibernate.Util;
 
-namespace MiniProfiler.NHibernate.NHibernate
+namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
     public class ProfiledSqlClientBatchingBatcher : AbstractBatcher
     {
