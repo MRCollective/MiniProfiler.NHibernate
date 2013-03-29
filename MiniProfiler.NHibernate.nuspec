@@ -1,0 +1,37 @@
+﻿<?xml version='1.0' encoding='UTF-8'?> 
+<package>
+  <metadata>
+    <id>
+      MiniProfiler.NHibernate
+    </id>
+    <version>
+      2.1.0.0
+    </version>
+    <authors>
+      mdaviesnet
+    </authors>
+    <description>
+      NHibernate drivers to support integration with MiniProfiler.
+    </description>
+    <projectUrl>
+      https://github.com/MattDavies/MiniProfiler.NHibernate
+    </projectUrl>
+    <licenseUrl>
+      https://github.com/MattDavies/MiniProfiler.NHibernate/blob/master/LICENSE.txt
+    </licenseUrl>
+    <tags>
+      profiler, sql, mvc, asp.net, performance, profiling, timing, nhibernate, miniprofiler
+    </tags>
+    <language>
+      en-US 
+    </language>
+    <dependencies>
+	  <dependency id="MiniProfiler" version="2.1.0" />
+      <dependency id="NHibernate" version="3.2.0.4000" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MiniProfiler.NHibernate\bin\Release\StackExchange.Profiling.NHibernate.dll" target="lib\NET40" />
+    <file src="MiniProfiler.NHibernate\bin\Release\StackExchange.Profiling.NHibernate.pdb" target="lib\NET40" />
+  </files>
+</package>
