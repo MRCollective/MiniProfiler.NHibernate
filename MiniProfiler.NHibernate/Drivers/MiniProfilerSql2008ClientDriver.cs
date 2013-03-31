@@ -13,8 +13,8 @@ namespace StackExchange.Profiling.NHibernate.Drivers
         {
             var command = base.CreateCommand();
 
-            if (StackExchange.Profiling.MiniProfiler.Current != null)
-                command = new ProfiledSqlDbCommand((DbCommand)command, StackExchange.Profiling.MiniProfiler.Current);
+            if (MiniProfiler.Current != null)
+                command = new ProfiledSqlDbCommand((DbCommand)command, MiniProfiler.Current);
 
             return command;
         }

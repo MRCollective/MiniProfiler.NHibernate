@@ -10,7 +10,7 @@ using NHibernate.Util;
 
 namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
-    public class ProfiledSqlClientBatchingBatcher : AbstractBatcher
+    internal class ProfiledSqlClientBatchingBatcher : AbstractBatcher
     {
         private int _batchSize;
         private int _totalExpectedRowsAffected;
@@ -45,7 +45,7 @@ namespace StackExchange.Profiling.NHibernate.Infrastructure
             var sqlStatementLogger = Factory.Settings.SqlStatementLogger;
             if (sqlStatementLogger.IsDebugEnabled)
             {
-                string lineWithParameters = sqlStatementLogger.GetCommandLineWithParameters(batchUpdate);
+                var lineWithParameters = sqlStatementLogger.GetCommandLineWithParameters(batchUpdate);
                 var formatStyle = sqlStatementLogger.DetermineActualStyle(FormatStyle.Basic);
                 lineWithParameters = formatStyle.Formatter.Format(lineWithParameters);
                 _currentBatchCommandsLog.Append("command ")
