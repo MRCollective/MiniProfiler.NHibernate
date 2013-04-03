@@ -24,6 +24,7 @@ namespace StackExchange.Profiling.NHibernate.Infrastructure
             _defaultTimeout = PropertiesHelper.GetInt32(global::NHibernate.Cfg.Environment.CommandTimeout, global::NHibernate.Cfg.Environment.Properties, -1);
 
             _currentBatch = CreateConfiguredBatch();
+            _currentBatchCommandsLog = new StringBuilder().AppendLine("Batch commands:");
         }
 
         public override int BatchSize
