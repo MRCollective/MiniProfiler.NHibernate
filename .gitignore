@@ -22,6 +22,8 @@ debug/*
 *.dgml
 packages
 packages/*
+.nuget
+.nuget/*
 
 # NUnit artifacts
 TestResult.xml
