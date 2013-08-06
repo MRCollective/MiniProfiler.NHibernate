@@ -20,6 +20,8 @@ debug/*
 *.Publish.xml
 *.cache
 *.dgml
+packages
+packages/*
 
 # NUnit artifacts
 TestResult.xml

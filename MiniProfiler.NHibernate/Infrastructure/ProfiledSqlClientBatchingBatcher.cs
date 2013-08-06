@@ -55,10 +55,10 @@ namespace StackExchange.Profiling.NHibernate.Infrastructure
                     .AppendLine(lineWithParameters);
             }
 
-            var update = batchUpdate as ProfiledSqlDbCommand;
+            var update = batchUpdate as ProfiledGenericDbCommand<SqlCommand>;
             if (update != null)
             {
-                _currentBatch.Append(update.SqlCommand);
+                _currentBatch.Append(update.Command);
             }
             else
             {

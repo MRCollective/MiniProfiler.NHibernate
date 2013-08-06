@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Drivers\MiniProfilerSql2008ClientDriver.cs" />
+    <Compile Include="Drivers\SQLServer\MiniProfilerSql2008ClientDriver.cs" />
+    <Compile Include="Drivers\Oracle\MiniProfilerOracle10ClientDriver.cs" />
+    <Compile Include="Infrastructure\ProfiledGenericDbCommand.cs" />
     <Compile Include="Infrastructure\ProfiledSqlClientBatchingBatcher.cs" />
     <Compile Include="Infrastructure\ProfiledSqlClientBatchingBatcherFactory.cs" />
     <Compile Include="Infrastructure\ProfiledSqlDbCommand.cs" />
@@ -60,6 +63,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
