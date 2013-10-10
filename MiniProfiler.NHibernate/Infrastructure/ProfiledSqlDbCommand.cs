@@ -1,9 +1,11 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
 using System.Data.SqlClient;
 using StackExchange.Profiling.Data;
 
 namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
+    [Obsolete]
     internal class ProfiledSqlDbCommand : ProfiledDbCommand
     {
         private readonly SqlCommand _sqlCommand;
