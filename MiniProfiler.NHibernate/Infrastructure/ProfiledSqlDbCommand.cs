@@ -4,7 +4,7 @@ using StackExchange.Profiling.Data;
 
 namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
-    internal class ProfiledSqlDbCommand : ProfiledDbCommand
+    public class ProfiledSqlDbCommand : ProfiledDbCommand
     {
         private readonly SqlCommand _sqlCommand;
 
