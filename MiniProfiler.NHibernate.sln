@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{459750
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniProfiler.NHibernate.UnitTests", "MiniProfiler.NHibernate.UnitTests\MiniProfiler.NHibernate.UnitTests.csproj", "{ED09582B-9AE0-4C37-824B-C3675A0AC232}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,12 @@ Global
 		{820AFF68-9132-4021-8A46-4C2741D725E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{820AFF68-9132-4021-8A46-4C2741D725E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{820AFF68-9132-4021-8A46-4C2741D725E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED09582B-9AE0-4C37-824B-C3675A0AC232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED09582B-9AE0-4C37-824B-C3675A0AC232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED09582B-9AE0-4C37-824B-C3675A0AC232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED09582B-9AE0-4C37-824B-C3675A0AC232}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
