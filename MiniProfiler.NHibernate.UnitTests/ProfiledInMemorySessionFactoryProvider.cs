@@ -3,23 +3,35 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using StackExchange.Profiling.NHibernate.Drivers;
 
 namespace MiniProfiler.NHibernate.UnitTests
 {
-	public class InMemorySessionFactoryProvider
+
+	public class ProfiledInMemorySessionFactoryProvider
 	{
 		public ISessionFactory SessionFactory;
 		public Configuration Configuration;
 
-		private InMemorySessionFactoryProvider() { }
+		private ProfiledInMemorySessionFactoryProvider() { }
 
-		public static InMemorySessionFactoryProvider CreateSessionFactory<T>()
+		private class MiniProfilerSQLiteConfiguration:SQLiteConfiguration
 		{
-			var provider = new InMemorySessionFactoryProvider ();
+			public MiniProfilerSQLiteConfiguration()
+			{
+				base.Driver<MiniProfilerSQLite20Driver>();
+			}
+		}
+
+		public static ProfiledInMemorySessionFactoryProvider CreateSessionFactory<T>()
+		{
+			var provider = new ProfiledInMemorySessionFactoryProvider ();
 
 			provider.SessionFactory = Fluently.Configure()
-				.Database(SQLiteConfiguration.Standard.InMemory().ShowSql())
+				.Database(new MiniProfilerSQLiteConfiguration().InMemory().ShowSql())
 				.Mappings(m => m.FluentMappings.AddFromAssemblyOf<T>())
+				//.ExposeConfiguration(cfg => cfg.SetProperty("adonet.batch_size","20"))
+				//.ExposeConfiguration(cfg => cfg.SetProperty("generate_statistics", "true"))
 				.ExposeConfiguration(cfg => provider.Configuration = cfg)
 				.BuildSessionFactory();
 			return provider;
