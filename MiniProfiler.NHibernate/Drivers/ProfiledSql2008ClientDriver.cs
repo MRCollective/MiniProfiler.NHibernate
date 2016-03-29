@@ -4,7 +4,6 @@ using System.Data.Common;
 using NHibernate.AdoNet;
 using NHibernate.Driver;
 using StackExchange.Profiling.NHibernate.Infrastructure;
-using StackExchange.Profiling.Data;
 using System.Data.SqlClient;
 
 namespace StackExchange.Profiling.NHibernate.Drivers
@@ -26,22 +25,6 @@ namespace StackExchange.Profiling.NHibernate.Drivers
 
             return command;       
         }
-
-        public override IDbConnection CreateConnection()
-        {
-            IDbConnection connection = base.CreateConnection();
-
-            if (MiniProfiler.Current != null)
-            {
-                connection = new ProfiledDbConnection(
-                    connection as DbConnection,
-                    MiniProfiler.Current
-                );
-            }
-
-            return connection;
-        }
-
 
         public Type BatcherFactoryClass
         {
