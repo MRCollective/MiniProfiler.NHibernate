@@ -6,16 +6,18 @@ namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
     public class ProfiledSqlDbCommand : ProfiledDbCommand
     {
-        private readonly SqlCommand _sqlCommand;
-
-        public ProfiledSqlDbCommand(DbCommand command, IDbProfiler profiler) : base(command, null, profiler)
+        public ProfiledSqlDbCommand(SqlCommand command, DbConnection connection, IDbProfiler profiler) 
+            : base(command, connection, profiler)
         {
-            _sqlCommand = (SqlCommand)command;
+
         }
 
         public SqlCommand SqlCommand
         {
-            get { return _sqlCommand; }
+            get
+            {
+                return (SqlCommand)base.InternalCommand;
+            }
         }
     }
 }

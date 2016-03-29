@@ -8,7 +8,11 @@ namespace StackExchange.Profiling.NHibernate.Infrastructure
     {
         public override IBatcher CreateBatcher(ConnectionManager connectionManager, IInterceptor interceptor)
         {
-            return new ProfiledSqlClientBatchingBatcher(connectionManager, interceptor);
+            return new ProfiledSqlClientBatchingBatcher(
+                connectionManager,
+                interceptor,
+                MiniProfiler.Current
+            );
         }
     }
 }

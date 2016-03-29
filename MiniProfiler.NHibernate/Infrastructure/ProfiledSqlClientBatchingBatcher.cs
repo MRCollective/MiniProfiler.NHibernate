@@ -1,116 +1,58 @@
-﻿using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Text;
+﻿
+using System.Data;
 using NHibernate;
 using NHibernate.AdoNet;
-using NHibernate.AdoNet.Util;
-using NHibernate.Exceptions;
-using NHibernate.Util;
+using StackExchange.Profiling.Data;
+using System;
+using System.Data.SqlClient;
 
 namespace StackExchange.Profiling.NHibernate.Infrastructure
 {
-    internal class ProfiledSqlClientBatchingBatcher : AbstractBatcher
+    internal class ProfiledSqlClientBatchingBatcher : StackExchange.Profiling.NHibernate.Infrastructure.SqlClientBatchingBatcher
     {
-        private int _batchSize;
-        private int _totalExpectedRowsAffected;
-        private SqlClientSqlCommandSet _currentBatch;
-        private StringBuilder _currentBatchCommandsLog;
-        private readonly int _defaultTimeout;
+        public readonly IDbProfiler _profiler;
 
-        public ProfiledSqlClientBatchingBatcher(ConnectionManager connectionManager, IInterceptor interceptor) : base(connectionManager, interceptor)
+        public ProfiledSqlClientBatchingBatcher(ConnectionManager connectionManager, IInterceptor interceptor, IDbProfiler profiler) 
+            : base(connectionManager, interceptor)
         {
-            _batchSize = Factory.Settings.AdoBatchSize;
-            _defaultTimeout = PropertiesHelper.GetInt32(global::NHibernate.Cfg.Environment.CommandTimeout, global::NHibernate.Cfg.Environment.Properties, -1);
-
-            _currentBatch = CreateConfiguredBatch();
-            _currentBatchCommandsLog = new StringBuilder().AppendLine("Batch commands:");
-        }
-
-        public override int BatchSize
-        {
-            get { return _batchSize; }
-            set { _batchSize = value; }
-        }
-
-        protected override int CountOfStatementsInCurrentBatch
-        {
-            get { return _currentBatch.CountOfCommands; }
-        }
-
-        public override void AddToBatch(IExpectation expectation)
-        {
-            _totalExpectedRowsAffected += expectation.ExpectedRowCount;
-            var batchUpdate = CurrentCommand;
-            Driver.AdjustCommand(batchUpdate);
-            var sqlStatementLogger = Factory.Settings.SqlStatementLogger;
-            if (sqlStatementLogger.IsDebugEnabled)
-            {
-                var lineWithParameters = sqlStatementLogger.GetCommandLineWithParameters(batchUpdate);
-                var formatStyle = sqlStatementLogger.DetermineActualStyle(FormatStyle.Basic);
-                lineWithParameters = formatStyle.Formatter.Format(lineWithParameters);
-                _currentBatchCommandsLog.Append("command ")
-                    .Append(_currentBatch.CountOfCommands)
-                    .Append(":")
-                    .AppendLine(lineWithParameters);
-            }
-
-            var update = batchUpdate as ProfiledSqlDbCommand;
-            if (update != null)
-            {
-                _currentBatch.Append(update.SqlCommand);
-            }
-            else
-            {
-                _currentBatch.Append((SqlCommand)batchUpdate);
-            }
-
-            if (_currentBatch.CountOfCommands >= _batchSize)
-            {
-                ExecuteBatchWithTiming(batchUpdate);
-            }
+            _profiler = profiler;
         }
 
         protected override void DoExecuteBatch(IDbCommand ps)
         {
-            CheckReaders();
-            Prepare(_currentBatch.BatchCommand);
-            if (Factory.Settings.SqlStatementLogger.IsDebugEnabled)
+            if (this._profiler == null || !this._profiler.IsActive)
             {
-                Factory.Settings.SqlStatementLogger.LogBatchCommand(_currentBatchCommandsLog.ToString());
-                _currentBatchCommandsLog = new StringBuilder().AppendLine("Batch commands:");
+                base.DoExecuteBatch(ps);
             }
 
-            int rowsAffected;
+            this._profiler.ExecuteStart(ps, SqlExecuteType.NonQuery);
             try
             {
-                rowsAffected = _currentBatch.ExecuteNonQuery();
+                base.DoExecuteBatch(ps);
             }
-            catch (DbException e)
+            catch (Exception e)
             {
-                throw ADOExceptionHelper.Convert(Factory.SQLExceptionConverter, e, "could not execute batch command.");
+                _profiler.OnError(ps, SqlExecuteType.NonQuery, e);
+                throw;
             }
-
-            Expectations.VerifyOutcomeBatched(_totalExpectedRowsAffected, rowsAffected);
-
-            _currentBatch.Dispose();
-            _totalExpectedRowsAffected = 0;
-            _currentBatch = CreateConfiguredBatch();
+            finally
+            {
+                _profiler.ExecuteFinish(ps, SqlExecuteType.NonQuery, null);
+            }
         }
 
-        private SqlClientSqlCommandSet CreateConfiguredBatch()
+        protected override SqlCommand GetSqlCommand(IDbCommand batchUpdate)
         {
-            var result = new SqlClientSqlCommandSet();
-            if (_defaultTimeout > 0)
+            // ProfiledSqlDbCommand derives from DbCommand which cannot be casted to SqlCommand as
+            // (sealed) SqlCommand derives from DbCommand. To avoid this issue, return the original
+            // wrapped SqlCommand instead.
+            ProfiledSqlDbCommand command = batchUpdate as ProfiledSqlDbCommand;
+            if (command != null)
             {
-                try
-                {
-                    result.CommandTimeout = _defaultTimeout;
-                }
-                catch {}
+                return command.SqlCommand;
             }
 
-            return result;
+            return base.GetSqlCommand(batchUpdate);
         }
     }
 }
