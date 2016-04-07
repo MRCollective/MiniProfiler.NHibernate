@@ -23,6 +23,7 @@ namespace StackExchange.Profiling.NHibernate.Infrastructure
             if (this._profiler == null || !this._profiler.IsActive)
             {
                 base.DoExecuteBatch(ps);
+                return;
             }
 
             this._profiler.ExecuteStart(ps, SqlExecuteType.NonQuery);
